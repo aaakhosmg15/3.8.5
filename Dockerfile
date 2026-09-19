@@ -28,7 +28,7 @@ COPY --from=frontend /src/internal/web/dist ./internal/web/dist
 ENV CGO_ENABLED=1
 ENV CGO_CFLAGS="-D_LARGEFILE64_SOURCE"
 RUN go build -ldflags "-w -s" -o build/x-ui main.go
-RUN sh ./DockerInit.sh "$TARGETARCH"
+RUN ./DockerInit.sh "$TARGETARCH"
 
 # ========================================================
 # Stage: Final Image of 3x-ui
@@ -69,5 +69,6 @@ ENV XUI_ENABLE_FAIL2BAN="true"
 ENV XUI_DB_TYPE=""
 ENV XUI_DB_DSN=""
 EXPOSE 2053
+VOLUME [ "/etc/x-ui" ]
 CMD [ "./x-ui" ]
 ENTRYPOINT [ "/app/DockerEntrypoint.sh" ]
